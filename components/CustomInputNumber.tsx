@@ -27,6 +27,10 @@ export const CustomInputNumber = (props: CustomInputNumberProps) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const timerRef = useRef<NodeJS.Timeout | undefined>();
 
+  const minusDisabled = disabled || Number(value) <= min;
+  const addDisabled = disabled || Number(value) >= max;
+  const inputDisabled = disabled || (minusDisabled && addDisabled);
+
   useEffect(() => {
     setValue(props.value);
   }, [props.value]);
@@ -90,24 +94,26 @@ export const CustomInputNumber = (props: CustomInputNumberProps) => {
         onMouseUp={clearTimer}
         onTouchEnd={clearTimer}
         className="square-control-btn border-sky-500 disabled:border-sky-200 disabled:cursor-not-allowed [&>span]:disabled:text-sky-200"
-        disabled={disabled || Number(value) <= min}
+        disabled={minusDisabled}
       >
         <span className="text-sky-500">-</span>
       </button>
-      <input
-        data-testid="custom-number-input"
-        ref={inputRef}
-        min={min}
-        max={max}
-        step={step}
-        inputMode="numeric"
-        className="square-control-btn appearance-none ml-2 text-center border-neutral-400 disabled:border-neutral-200 disabled:cursor-not-allowed"
-        disabled={disabled}
-        type="number"
-        value={value}
-        name={name}
-        onChange={handleOnChange}
-      />
+      <div>
+        <input
+          data-testid="custom-number-input"
+          ref={inputRef}
+          min={min}
+          max={max}
+          step={step}
+          inputMode="numeric"
+          className="square-control-btn appearance-none ml-2 text-center border-neutral-400 disabled:border-neutral-200 disabled:cursor-not-allowed"
+          disabled={inputDisabled}
+          type="number"
+          value={value}
+          name={name}
+          onChange={handleOnChange}
+        />
+      </div>
       <button
         data-testid="custom-number-add-button"
         onMouseDown={addStep}
@@ -115,7 +121,7 @@ export const CustomInputNumber = (props: CustomInputNumberProps) => {
         onMouseUp={clearTimer}
         onTouchEnd={clearTimer}
         className="square-control-btn border-sky-500 ml-2 disabled:border-sky-200 disabled:cursor-not-allowed [&>span]:disabled:text-sky-200"
-        disabled={disabled || Number(value) >= max}
+        disabled={addDisabled}
       >
         <span className="text-sky-500">+</span>
       </button>
