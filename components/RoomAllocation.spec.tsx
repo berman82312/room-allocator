@@ -47,7 +47,6 @@ describe("RoomAllocation", () => {
   });
 
   test("Feat: button work as expected", async () => {
-    const onChange = vi.fn();
     render(
       <RoomAllocation
         guest={{ adult: 2, child: 4 }}
@@ -56,8 +55,8 @@ describe("RoomAllocation", () => {
           { roomPrice: 150, adultPrice: 500, childPrice: 20, capacity: 5 },
           { roomPrice: 1000, adultPrice: 100, childPrice: 10, capacity: 6 },
         ]}
-        onChange={onChange}
-        onBlur={vi.fn()}
+        onChange={() => {}}
+        onBlur={() => {}}
       />
     );
     const user = userEvent.setup();
@@ -77,11 +76,11 @@ describe("RoomAllocation", () => {
     const alertDiv = screen.getByTestId("left-guest-alert");
 
     expect(alertDiv).toBeDefined();
-    expect(alertDiv.textContent).toContain('1 位小孩');
-    expect(alertDiv.textContent).not.toContain('1 位大人');
+    expect(alertDiv.textContent).toContain("1 位小孩");
+    expect(alertDiv.textContent).not.toContain("1 位大人");
 
     await user.click(minusButtons[4]);
-    expect(alertDiv.textContent).toContain('1 位小孩');
-    expect(alertDiv.textContent).toContain('1 位大人');;
+    expect(alertDiv.textContent).toContain("1 位小孩");
+    expect(alertDiv.textContent).toContain("1 位大人");
   });
 });

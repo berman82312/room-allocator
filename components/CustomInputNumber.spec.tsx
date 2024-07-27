@@ -187,14 +187,16 @@ describe("CustomInputNumber", () => {
       />
     );
 
+    const user = userEvent.setup();
+
     const minusButton = await screen.findByTestId<HTMLButtonElement>(
       "custom-number-minus-button"
     );
 
-    fireEvent.mouseDown(minusButton);
-    fireEvent.mouseUp(minusButton);
+    expect(onChange).toHaveBeenCalledTimes(0);
 
-    expect(onChange).toHaveBeenCalledOnce();
+    await user.click(minusButton);
+    expect(onChange).toHaveBeenCalledTimes(1);
   });
 
   test("Feat: long press on minus button", async () => {
