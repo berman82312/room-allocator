@@ -124,7 +124,7 @@ function findAllocations(
 
   // Dummy status: no solution
   let price = ImpossiblePrice;
-  let allocations = [] as PossibleAllocations;
+  let allocations: PossibleAllocations = [];
 
   const newPrice = Math.min(
     ...possibleNewSolutions.map((possibleSolution) => possibleSolution[1])
@@ -183,6 +183,7 @@ function allocateNewGuest(
   const minPrice = Math.min(...roomAddGuestPrices);
 
   if (minPrice === ImpossiblePrice) {
+    // Impossible to add guest
     return [[], ImpossiblePrice];
   }
 
@@ -190,6 +191,7 @@ function allocateNewGuest(
   const newPrice = prePrice + minPrice;
 
   let allocations: PossibleAllocations = [];
+
   roomAddGuestPrices.map((price, index) => {
     if (price === minPrice) {
       const newAllocation = fp.cloneDeep(previousAllocation);
