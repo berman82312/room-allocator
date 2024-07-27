@@ -89,7 +89,7 @@ export const CustomInputNumber = (props: CustomInputNumberProps) => {
         onTouchStart={minusStep}
         onMouseUp={clearTimer}
         onTouchEnd={clearTimer}
-        className="h-12 w-12 border border-sky-500 disabled:border-sky-200 disabled:cursor-not-allowed [&>span]:disabled:text-sky-200 rounded"
+        className="square-control-btn border-sky-500 disabled:border-sky-200 disabled:cursor-not-allowed [&>span]:disabled:text-sky-200"
         disabled={disabled || Number(value) <= min}
       >
         <span className="text-sky-500">-</span>
@@ -101,7 +101,7 @@ export const CustomInputNumber = (props: CustomInputNumberProps) => {
         max={max}
         step={step}
         inputMode="numeric"
-        className="appearance-none h-12 w-12 border border-neutral-400 disabled:border-neutral-200 disabled:cursor-not-allowed rounded ml-2 text-center"
+        className="square-control-btn appearance-none ml-2 text-center border-neutral-400 disabled:border-neutral-200 disabled:cursor-not-allowed"
         disabled={disabled}
         type="number"
         value={value}
@@ -114,7 +114,7 @@ export const CustomInputNumber = (props: CustomInputNumberProps) => {
         onTouchStart={addStep}
         onMouseUp={clearTimer}
         onTouchEnd={clearTimer}
-        className="h-12 w-12 border border-sky-500 rounded ml-2 disabled:border-sky-200 disabled:cursor-not-allowed [&>span]:disabled:text-sky-200"
+        className="square-control-btn border-sky-500 ml-2 disabled:border-sky-200 disabled:cursor-not-allowed [&>span]:disabled:text-sky-200"
         disabled={disabled || Number(value) >= max}
       >
         <span className="text-sky-500">+</span>

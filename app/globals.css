@@ -10,6 +10,12 @@
   }
 }
 
+@layer components {
+  .square-control-btn {
+    @apply h-12 w-12 border rounded;
+  }
+}
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;
