@@ -78,6 +78,50 @@ describe("CustomInputNumber", () => {
     expect(input.value).toBe("15");
   });
 
+  test("Feat: step", async () => {
+    const user = userEvent.setup();
+    render(
+      <CustomInputNumber
+        min={1}
+        max={16}
+        step={2}
+        name={"test"}
+        value={13}
+        disabled={false}
+        onChange={() => {}}
+        onBlur={() => {}}
+      />
+    );
+
+    const addButton = await screen.findByTestId<HTMLButtonElement>(
+      "custom-number-add-button"
+    );
+
+    await user.click(addButton);
+
+    const input = screen.getByTestId<HTMLInputElement>("custom-number-input");
+    expect(input.value).toBe("15");
+
+    await user.click(addButton);
+    expect(input.value).toBe("16");
+
+    const minusButton = await screen.findByTestId<HTMLButtonElement>(
+      "custom-number-minus-button"
+    );
+
+    await user.click(minusButton);
+    expect(input.value).toBe("14");
+
+    await user.click(minusButton); // 12
+    await user.click(minusButton); // 10
+    await user.click(minusButton); // 8
+    await user.click(minusButton); // 6
+    await user.click(minusButton); // 4
+    await user.click(minusButton); // 2
+    await user.click(minusButton);
+    expect(input.value).toBe("1");
+  });
+
   test("Feat: cannot add over max", async () => {
     render(
       <CustomInputNumber

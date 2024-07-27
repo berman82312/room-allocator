@@ -1,24 +1,12 @@
 import fp from "lodash/fp";
+import {
+  type GuestAllocation,
+  type Guest,
+  type Room,
+  type RoomAllocation,
+} from "@/types/RoomAllocation";
 
 const ImpossiblePrice = Number.MAX_VALUE;
-
-interface Guest {
-  adult: number;
-  child: number;
-}
-
-interface Room {
-  roomPrice: number;
-  adultPrice: number;
-  childPrice: number;
-  capacity: number;
-}
-
-interface RoomAllocation {
-  adult: number;
-  child: number;
-  price: number;
-}
 
 type Allocations = RoomAllocation[];
 
@@ -37,7 +25,7 @@ interface SolutionTable {
 
 const emptyAllocation = { adult: 0, child: 0, price: 0 };
 
-export function getDefaultRoomAllocation(guest: Guest, rooms: Room[]) {
+export function getDefaultRoomAllocation(guest: Guest, rooms: Room[]): GuestAllocation {
   const dpSolutionTable = {
     rooms: rooms,
     solution: createDpTable(guest.adult, guest.child),
