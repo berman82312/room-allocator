@@ -25,7 +25,10 @@ interface SolutionTable {
 
 const emptyAllocation = { adult: 0, child: 0, price: 0 };
 
-export function getDefaultRoomAllocation(guest: Guest, rooms: Room[]): GuestAllocation {
+export function getDefaultRoomAllocation(
+  guest: Guest,
+  rooms: Room[]
+): GuestAllocation {
   const dpSolutionTable = {
     rooms: rooms,
     solution: createDpTable(guest.adult, guest.child),

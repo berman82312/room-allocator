@@ -5,16 +5,23 @@ import {
   type GuestAllocation,
 } from "@/types/RoomAllocation";
 import { CustomInputNumber } from "./CustomInputNumber";
-import { ChangeEventHandler, useEffect, useState } from "react";
+import {
+  type ChangeEventHandler,
+  type FocusEventHandler,
+  useEffect,
+  useState,
+} from "react";
 import {
   calculateRoomPrice,
   getDefaultRoomAllocation,
 } from "@/utils/allocationUtils";
+import { cloneDeep } from "lodash/fp";
 
 interface RoomAllocationProps {
   guest: Guest;
   rooms: Room[];
   onChange: (result: GuestAllocation) => void;
+  onBlur: FocusEventHandler;
 }
 
 export const RoomAllocation = (props: RoomAllocationProps) => {
@@ -24,7 +31,7 @@ export const RoomAllocation = (props: RoomAllocationProps) => {
   );
 
   useEffect(() => {
-    onChange(allocation);
+    onChange(cloneDeep(allocation));
   }, [onChange, allocation]);
 
   const leftAdult =
@@ -77,6 +84,8 @@ export const RoomAllocation = (props: RoomAllocationProps) => {
         onChildChange={(event) =>
           handleChildChange(index, Number(event.target.value))
         }
+        onAdultBlur={props.onBlur}
+        onChildBlur={props.onBlur}
       />
     );
   };
@@ -109,7 +118,10 @@ const LeftPeopleAlert = (props: LeftPeopleAlertProps) => {
   }
 
   return (
-    <div className="border rounded border-sky-300 bg-sky-50 my-4">
+    <div
+      data-testid="left-guest-alert"
+      className="border rounded border-sky-300 bg-sky-50 my-4"
+    >
       <p className="p-4">
         尚未分配人數：{adult > 0 ? `${adult} 位大人` : null}
         {adult > 0 && child > 0 ? "，" : null}
@@ -127,6 +139,8 @@ interface RoomStateProps {
   name: string;
   onAdultChange: ChangeEventHandler<HTMLInputElement>;
   onChildChange: ChangeEventHandler<HTMLInputElement>;
+  onAdultBlur: FocusEventHandler;
+  onChildBlur: FocusEventHandler;
 }
 
 const RoomState = (props: RoomStateProps) => {
@@ -137,6 +151,8 @@ const RoomState = (props: RoomStateProps) => {
     leftChild,
     onAdultChange,
     onChildChange,
+    onAdultBlur,
+    onChildBlur,
   } = props;
 
   const leftCapacity = room.capacity - allocation.adult - allocation.child;
@@ -160,7 +176,7 @@ const RoomState = (props: RoomStateProps) => {
             disabled={false}
             step={1}
             onChange={onAdultChange}
-            onBlur={() => {}}
+            onBlur={onAdultBlur}
           />
         </div>
       </div>
@@ -177,7 +193,7 @@ const RoomState = (props: RoomStateProps) => {
             disabled={noAdult}
             step={1}
             onChange={onChildChange}
-            onBlur={() => {}}
+            onBlur={onChildBlur}
           />
         </div>
       </div>

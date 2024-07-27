@@ -1,8 +1,8 @@
 "use client";
 
 import {
-  ChangeEventHandler,
-  FocusEventHandler,
+  type ChangeEventHandler,
+  type FocusEventHandler,
   useEffect,
   useRef,
   useState,
